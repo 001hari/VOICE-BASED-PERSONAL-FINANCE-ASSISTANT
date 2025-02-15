@@ -1,0 +1,82 @@
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.txn-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.txn-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 12px var(--space-sm);
+    border-radius: var(--radius-xs);
+    transition: background var(--transition);
+}
+
+.txn-item:hover {
+    background: var(--bg);
+}
+
+.txn-indicator {
+    width: 4px;
+    height: 32px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.txn-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.txn-category {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.txn-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.txn-amount {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    margin-right: var(--space-sm);
+}
+
+.txn-delete {
+    width: 32px;
+    height: 32px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.txn-delete:hover {
+    border-color: var(--expense);
+    color: var(--expense);
+    background: var(--expense-light);
+}

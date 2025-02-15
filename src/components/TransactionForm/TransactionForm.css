@@ -1,0 +1,35 @@
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.voice-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+@media (max-width: 480px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-submit {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+}

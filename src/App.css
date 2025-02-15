@@ -1,0 +1,119 @@
+/* ============================================
+   App Shell Layout
+   ============================================ */
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---- Header ---- */
+.app-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 var(--space-xl);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.app-title {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ---- Navigation ---- */
+.app-nav {
+    display: flex;
+    gap: 2px;
+}
+
+.nav-tab {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition);
+    border-radius: var(--radius-xs);
+    position: relative;
+}
+
+.nav-tab:hover {
+    color: var(--text);
+    background: var(--bg);
+}
+
+.nav-tab.active {
+    color: var(--white);
+    background: var(--black);
+}
+
+/* ---- Main Content ---- */
+.app-main {
+    flex: 1;
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-xl);
+}
+
+/* ---- Add Page Layout ---- */
+.add-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* ---- Footer ---- */
+.app-footer {
+    text-align: center;
+    padding: var(--space-lg);
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        height: auto;
+        padding: var(--space-md);
+        gap: var(--space-sm);
+    }
+
+    .app-nav {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-tab {
+        white-space: nowrap;
+        font-size: 10px;
+        padding: 6px 12px;
+    }
+
+    .app-main {
+        padding: var(--space-md);
+    }
+}

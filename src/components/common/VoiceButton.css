@@ -1,0 +1,69 @@
+.voice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) 0;
+}
+
+.voice-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--white);
+    color: var(--text);
+    cursor: pointer;
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.voice-btn:hover {
+    border-color: var(--black);
+}
+
+.voice-btn.listening {
+    border-color: var(--accent);
+    color: var(--accent);
+    animation: ripple 1.5s ease-out infinite;
+}
+
+.voice-btn-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voice-status {
+    text-align: center;
+    min-height: 20px;
+}
+
+.voice-listening {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.voice-listening .dot {
+    animation: pulse 1s infinite;
+}
+
+.voice-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.voice-unsupported {
+    text-align: center;
+    padding: var(--space-md);
+    color: var(--text-muted);
+    font-size: 12px;
+}
