@@ -1,82 +1,109 @@
 import React, { useReducer, createContext } from 'react';
 import contextReducer from './contextReducer';
 
-const initialTransactions = JSON.parse(localStorage.getItem('transactions')) || [
-    { amount: 45000, category: 'Salary', type: 'Income', date: '2026-04-01', id: 'demo-1' },
-    { amount: 5000, category: 'Extra income', type: 'Income', date: '2026-04-05', id: 'demo-2' },
-    { amount: 2000, category: 'Investments', type: 'Income', date: '2026-04-10', id: 'demo-3' },
-    { amount: 1500, category: 'Food', type: 'Expense', date: '2026-04-02', id: 'demo-4' },
-    { amount: 3500, category: 'Bills', type: 'Expense', date: '2026-04-03', id: 'demo-5' },
-    { amount: 2000, category: 'Travel', type: 'Expense', date: '2026-04-07', id: 'demo-6' },
-    { amount: 4000, category: 'Shopping', type: 'Expense', date: '2026-04-09', id: 'demo-7' },
-    { amount: 800, category: 'Entertainment', type: 'Expense', date: '2026-04-12', id: 'demo-8' },
-    { amount: 1200, category: 'Food', type: 'Expense', date: '2026-04-14', id: 'demo-9' },
-    { amount: 500, category: 'Phone', type: 'Expense', date: '2026-04-05', id: 'demo-10' },
-];
+// Data version — increment to clear stale localStorage
+var DATA_VERSION = 3;
+var storedVersion = localStorage.getItem('data_version');
+if (storedVersion !== String(DATA_VERSION)) {
+    localStorage.removeItem('transactions');
+    localStorage.removeItem('budget');
+    localStorage.removeItem('goals');
+    localStorage.removeItem('monthlyIncome');
+    localStorage.removeItem('savingsPercentage');
+    localStorage.removeItem('onboardingComplete');
+    localStorage.setItem('data_version', String(DATA_VERSION));
+}
 
-const initialBudget = JSON.parse(localStorage.getItem('budget')) || 25000;
+var initialTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+var initialBudget = JSON.parse(localStorage.getItem('budget')) || 0;
+var initialGoals = JSON.parse(localStorage.getItem('goals')) || [];
+var initialMonthlyIncome = JSON.parse(localStorage.getItem('monthlyIncome')) || 0;
+var initialSavingsPercentage = JSON.parse(localStorage.getItem('savingsPercentage')) || 20;
+var initialOnboarding = localStorage.getItem('onboardingComplete') === 'true';
 
-const initialGoals = JSON.parse(localStorage.getItem('goals')) || [
-    { id: 'goal-1', title: 'Emergency Fund', targetAmount: 100000, savedAmount: 35000, createdDate: '2026-01-01' },
-    { id: 'goal-2', title: 'New Laptop', targetAmount: 60000, savedAmount: 15000, createdDate: '2026-03-01' },
-];
-
-const initialState = {
+var initialState = {
     transactions: initialTransactions,
     budget: initialBudget,
     goals: initialGoals,
+    monthlyIncome: initialMonthlyIncome,
+    savingsPercentage: initialSavingsPercentage,
+    onboardingComplete: initialOnboarding,
 };
 
-export const ExpenseTrackerContext = createContext(initialState);
+export var ExpenseTrackerContext = createContext(initialState);
 
-export const Provider = ({ children }) => {
-    const [state, dispatch] = useReducer(contextReducer, initialState);
+export var Provider = function (props) {
+    var children = props.children;
+    var result = useReducer(contextReducer, initialState);
+    var state = result[0];
+    var dispatch = result[1];
 
     // Actions
-    const addTransaction = (transaction) => {
+    var addTransaction = function (transaction) {
         dispatch({ type: 'ADD_TRANSACTION', payload: transaction });
     };
 
-    const deleteTransaction = (id) => {
+    var deleteTransaction = function (id) {
         dispatch({ type: 'DELETE_TRANSACTION', payload: id });
     };
 
-    const setBudget = (amount) => {
+    var setBudget = function (amount) {
         dispatch({ type: 'SET_BUDGET', payload: amount });
     };
 
-    const addGoal = (goal) => {
+    var addGoal = function (goal) {
         dispatch({ type: 'ADD_GOAL', payload: goal });
     };
 
-    const updateGoal = (goal) => {
+    var updateGoal = function (goal) {
         dispatch({ type: 'UPDATE_GOAL', payload: goal });
     };
 
-    const deleteGoal = (id) => {
+    var deleteGoal = function (id) {
         dispatch({ type: 'DELETE_GOAL', payload: id });
     };
 
-    // Computed
-    const balance = state.transactions.reduce(
-        (acc, t) => (t.type === 'Expense' ? acc - t.amount : acc + t.amount),
+    var setMonthlyIncome = function (amount) {
+        dispatch({ type: 'SET_MONTHLY_INCOME', payload: amount });
+    };
+
+    var setSavingsPercentage = function (pct) {
+        dispatch({ type: 'SET_SAVINGS_PERCENTAGE', payload: pct });
+    };
+
+    var completeOnboarding = function () {
+        dispatch({ type: 'COMPLETE_ONBOARDING' });
+    };
+
+    // Computed values
+    var balance = state.transactions.reduce(
+        function (acc, t) { return t.type === 'Expense' ? acc - t.amount : acc + t.amount; },
         0
     );
 
-    return (
-        <ExpenseTrackerContext.Provider value={{
+    var lockedSavings = Math.round(state.monthlyIncome * state.savingsPercentage / 100);
+    var spendableBudget = state.monthlyIncome - lockedSavings;
+
+    return React.createElement(ExpenseTrackerContext.Provider, {
+        value: {
             transactions: state.transactions,
             budget: state.budget,
             goals: state.goals,
-            balance,
-            addTransaction,
-            deleteTransaction,
-            setBudget,
-            addGoal,
-            updateGoal,
-            deleteGoal,
-        }}>
-            {children}
-        </ExpenseTrackerContext.Provider>
-    );
+            monthlyIncome: state.monthlyIncome,
+            savingsPercentage: state.savingsPercentage,
+            onboardingComplete: state.onboardingComplete,
+            lockedSavings: lockedSavings,
+            spendableBudget: spendableBudget,
+            balance: balance,
+            addTransaction: addTransaction,
+            deleteTransaction: deleteTransaction,
+            setBudget: setBudget,
+            addGoal: addGoal,
+            updateGoal: updateGoal,
+            deleteGoal: deleteGoal,
+            setMonthlyIncome: setMonthlyIncome,
+            setSavingsPercentage: setSavingsPercentage,
+            completeOnboarding: completeOnboarding,
+        }
+    }, children);
 };

@@ -11,16 +11,20 @@ import {
 import './Insights.css';
 
 var Insights = function () {
-    var context = useContext(ExpenseTrackerContext);
-    var transactions = context.transactions;
-    var budget = context.budget;
+    var ctx = useContext(ExpenseTrackerContext);
+    var transactions = ctx.transactions;
+    var monthlyIncome = ctx.monthlyIncome;
+    var spendableBudget = ctx.spendableBudget;
+    var lockedSavings = ctx.lockedSavings;
 
     var summary = getCurrentMonthSummary(transactions);
     var topCategories = getTopCategories(transactions, 5);
     var dailyAvg = getDailyAverage(transactions);
-    var prediction = predictEndOfMonth(transactions, budget);
-    var suggestions = getSavingSuggestions(transactions, budget);
+    var prediction = predictEndOfMonth(transactions, spendableBudget);
+    var suggestions = getSavingSuggestions(transactions, spendableBudget, monthlyIncome, lockedSavings);
     var comparison = getMonthComparison(transactions);
+
+    var remaining = spendableBudget - summary.expenses;
 
     var now = new Date();
     var monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -35,8 +39,8 @@ var Insights = function () {
                 <span className="label">{currentMonthName} Summary</span>
                 <div className="summary-grid">
                     <div className="summary-item">
-                        <span className="summary-value amount-income mono">
-                            {'\u20B9'}{summary.income.toLocaleString('en-IN')}
+                        <span className="summary-value mono" style={{ color: 'var(--text)' }}>
+                            {'\u20B9'}{monthlyIncome.toLocaleString('en-IN')}
                         </span>
                         <span className="summary-label">Income</span>
                     </div>
@@ -44,19 +48,19 @@ var Insights = function () {
                         <span className="summary-value amount-expense mono">
                             {'\u20B9'}{summary.expenses.toLocaleString('en-IN')}
                         </span>
-                        <span className="summary-label">Expenses</span>
+                        <span className="summary-label">Spent</span>
                     </div>
                     <div className="summary-item">
-                        <span className={'summary-value mono ' + (summary.savings >= 0 ? 'amount-income' : 'amount-expense')}>
-                            {'\u20B9'}{Math.abs(summary.savings).toLocaleString('en-IN')}
+                        <span className="summary-value amount-income mono">
+                            {'\u20B9'}{lockedSavings.toLocaleString('en-IN')}
                         </span>
-                        <span className="summary-label">{summary.savings >= 0 ? 'Saved' : 'Deficit'}</span>
+                        <span className="summary-label">Saved (Locked)</span>
                     </div>
                     <div className="summary-item">
-                        <span className="summary-value mono">
-                            {'\u20B9'}{dailyAvg.toLocaleString('en-IN')}
+                        <span className={'summary-value mono ' + (remaining >= 0 ? '' : 'amount-expense')}>
+                            {'\u20B9'}{Math.abs(remaining).toLocaleString('en-IN')}
                         </span>
-                        <span className="summary-label">Daily Avg</span>
+                        <span className="summary-label">{remaining >= 0 ? 'Remaining' : 'Over Budget'}</span>
                     </div>
                 </div>
             </div>
@@ -77,31 +81,20 @@ var Insights = function () {
                                 </span>
                             )}
                         </div>
-                        {comparison.previousExpenses > 0 && (
+                        {comparison.previousExpenses > 0 ? (
                             <span className="stat-sub">Was {'\u20B9'}{comparison.previousExpenses.toLocaleString('en-IN')}</span>
-                        )}
-                        {comparison.previousExpenses === 0 && (
+                        ) : (
                             <span className="stat-sub">No data for {prevMonthName}</span>
                         )}
                     </div>
                     <div className="comparison-item">
-                        <span className="comparison-label">Income</span>
+                        <span className="comparison-label">Daily Average</span>
                         <div className="comparison-values">
                             <span className="mono" style={{ fontSize: 16, fontWeight: 700 }}>
-                                {'\u20B9'}{summary.income.toLocaleString('en-IN')}
+                                {'\u20B9'}{dailyAvg.toLocaleString('en-IN')}/day
                             </span>
-                            {comparison.previousIncome > 0 && (
-                                <span className={'comparison-change ' + (comparison.incomeChange >= 0 ? 'change-good' : 'change-bad')}>
-                                    {comparison.incomeChange >= 0 ? '\u2191' : '\u2193'} {Math.abs(comparison.incomeChange)}%
-                                </span>
-                            )}
                         </div>
-                        {comparison.previousIncome > 0 && (
-                            <span className="stat-sub">Was {'\u20B9'}{comparison.previousIncome.toLocaleString('en-IN')}</span>
-                        )}
-                        {comparison.previousIncome === 0 && (
-                            <span className="stat-sub">No data for {prevMonthName}</span>
-                        )}
+                        <span className="stat-sub">{summary.expenseCount} expenses this month</span>
                     </div>
                 </div>
             </div>
@@ -124,7 +117,7 @@ var Insights = function () {
                                     <div className="breakdown-bar-track">
                                         <div className="breakdown-bar-fill" style={{ width: pct + '%' }}></div>
                                     </div>
-                                    <span className="stat-sub">{pct}% of total</span>
+                                    <span className="stat-sub">{pct}% of total expenses</span>
                                 </div>
                             );
                         })}
@@ -134,7 +127,7 @@ var Insights = function () {
                 )}
             </div>
 
-            {/* Prediction */}
+            {/* Forecast */}
             <div className="card fade-in">
                 <span className="label">Forecast</span>
                 <div className="forecast-grid">
@@ -144,26 +137,24 @@ var Insights = function () {
                         }}>
                             {'\u20B9'}{prediction.predictedExpenses.toLocaleString('en-IN')}
                         </span>
-                        <span className="stat-sub">Predicted expenses by month end</span>
+                        <span className="stat-sub">Predicted expenses</span>
                     </div>
                     <div className="forecast-item">
-                        <span className="forecast-value mono">
-                            {prediction.daysRemaining}
-                        </span>
+                        <span className="forecast-value mono">{prediction.daysRemaining}</span>
                         <span className="stat-sub">Days remaining</span>
                     </div>
                     <div className="forecast-item">
                         <span className="forecast-value mono">
                             {'\u20B9'}{dailyAvg.toLocaleString('en-IN')}
                         </span>
-                        <span className="stat-sub">Average daily spend</span>
+                        <span className="stat-sub">Daily avg spend</span>
                     </div>
-                    {budget > 0 && prediction.daysRemaining > 0 && (
+                    {spendableBudget > 0 && prediction.daysRemaining > 0 && (
                         <div className="forecast-item">
                             <span className="forecast-value mono" style={{
-                                color: (budget - summary.expenses) > 0 ? 'var(--income)' : 'var(--expense)',
+                                color: remaining > 0 ? 'var(--income)' : 'var(--expense)',
                             }}>
-                                {'\u20B9'}{Math.max(0, Math.round((budget - summary.expenses) / prediction.daysRemaining)).toLocaleString('en-IN')}
+                                {'\u20B9'}{Math.max(0, Math.round(remaining / prediction.daysRemaining)).toLocaleString('en-IN')}
                             </span>
                             <span className="stat-sub">Safe daily spend</span>
                         </div>

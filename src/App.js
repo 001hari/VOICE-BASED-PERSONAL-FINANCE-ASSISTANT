@@ -1,22 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ExpenseTrackerContext } from './context/context';
+import Onboarding from './components/Onboarding/Onboarding';
 import Dashboard from './components/Dashboard/Dashboard';
 import TransactionForm from './components/TransactionForm/TransactionForm';
 import TransactionList from './components/TransactionList/TransactionList';
 import Goals from './components/Goals/Goals';
 import Insights from './components/Insights/Insights';
+import Advisor from './components/Advisor/Advisor';
 import './App.css';
 
 var tabs = [
     { id: 'dashboard', label: 'Dashboard' },
     { id: 'add', label: 'Add' },
+    { id: 'advisor', label: 'Advisor' },
     { id: 'goals', label: 'Goals' },
     { id: 'insights', label: 'Insights' },
 ];
 
 var App = function () {
+    var ctx = useContext(ExpenseTrackerContext);
+    var onboardingComplete = ctx.onboardingComplete;
+
     var tabState = useState('dashboard');
     var activeTab = tabState[0];
     var setActiveTab = tabState[1];
+
+    // Show onboarding for first-time users
+    if (!onboardingComplete) {
+        return <Onboarding />;
+    }
 
     var renderTab = function () {
         switch (activeTab) {
@@ -29,6 +41,8 @@ var App = function () {
                         <TransactionList />
                     </div>
                 );
+            case 'advisor':
+                return <Advisor />;
             case 'goals':
                 return <Goals />;
             case 'insights':

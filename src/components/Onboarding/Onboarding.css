@@ -1,0 +1,207 @@
+.onboarding-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: var(--space-md);
+}
+
+.onboarding-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-2xl) var(--space-xl);
+    max-width: 480px;
+    width: 100%;
+}
+
+.onboarding-progress {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: var(--space-xl);
+}
+
+.progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+    background: var(--accent);
+    width: 24px;
+    border-radius: 4px;
+}
+
+.onboarding-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.onboarding-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-md);
+}
+
+.onboarding-title {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.onboarding-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+    max-width: 360px;
+}
+
+.onboarding-input-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: var(--space-sm);
+}
+
+.onboarding-currency {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.onboarding-input {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    outline: none;
+    padding: 8px 4px;
+    width: 200px;
+    text-align: center;
+    background: transparent;
+    color: var(--text);
+    transition: border-color var(--transition);
+}
+
+.onboarding-input:focus {
+    border-color: var(--accent);
+}
+
+.onboarding-input::placeholder {
+    color: var(--text-muted);
+    font-size: 18px;
+}
+
+.onboarding-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+}
+
+.onboarding-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+}
+
+.onboarding-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.onboarding-btns {
+    display: flex;
+    gap: var(--space-sm);
+    width: 100%;
+    margin-top: var(--space-lg);
+}
+
+.onboarding-btns .btn {
+    flex: 1;
+    padding: 12px;
+}
+
+/* Savings presets */
+.savings-presets {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--space-lg);
+}
+
+.preset-btn {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    background: var(--white);
+    color: var(--text);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.preset-btn:hover {
+    border-color: var(--black);
+}
+
+.preset-btn.active {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+/* Savings summary */
+.savings-summary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+}
+
+.savings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--bg);
+}
+
+.savings-row-highlight {
+    border-bottom: none;
+    padding-top: 12px;
+    border-top: 2px solid var(--black);
+}
+
+/* Goal preview */
+.goal-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 10px 14px;
+    background: var(--income-light);
+    border-radius: var(--radius-xs);
+    width: 100%;
+    text-align: left;
+    margin-bottom: var(--space-sm);
+}

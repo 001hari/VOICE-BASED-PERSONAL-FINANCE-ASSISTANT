@@ -1,5 +1,30 @@
-const incomeColors = ['#123123', '#154731', '#165f40', '#16784f', '#14915f', '#10ac6e', '#0bc77e', '#04e38d', '#00ff9d'];
-const expenseColors = ['#b50d12', '#bf2f1f', '#c9452c', '#d3583a', '#dc6a48', '#e57c58', '#ee8d68', '#f79d79', '#ffae8a', '#cc474b', '#f55b5f'];
+// Distinct rainbow colors for expense categories — each clearly different
+const expenseColors = [
+    '#FF6384', // Bills - pink
+    '#36A2EB', // Car - blue
+    '#FFCE56', // Clothes - gold
+    '#4BC0C0', // Travel - teal
+    '#FF9F40', // Food - orange
+    '#9966FF', // Shopping - purple
+    '#FF6633', // House - coral
+    '#2ECC71', // Entertainment - green
+    '#3498DB', // Phone - steel blue
+    '#E74C3C', // Pets - crimson
+    '#95A5A6', // Other - grey
+];
+
+// Varied colors for income categories
+const incomeColors = [
+    '#1ABC9C', // Business - turquoise
+    '#2980B9', // Investments - blue
+    '#8E44AD', // Extra income - purple
+    '#16A085', // Deposits - dark turquoise
+    '#F39C12', // Lottery - gold
+    '#D35400', // Gifts - orange
+    '#27AE60', // Salary - green
+    '#2C3E50', // Savings - dark navy
+    '#7F8C8D', // Rental income - grey
+];
 
 export const incomeCategories = [
     { type: 'Business', amount: 0, color: incomeColors[0] },

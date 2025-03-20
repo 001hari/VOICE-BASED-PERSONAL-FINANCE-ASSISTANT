@@ -37,6 +37,21 @@ const contextReducer = (state, action) => {
             return { ...state, goals };
         }
 
+        case 'SET_MONTHLY_INCOME': {
+            localStorage.setItem('monthlyIncome', JSON.stringify(action.payload));
+            return { ...state, monthlyIncome: action.payload };
+        }
+
+        case 'SET_SAVINGS_PERCENTAGE': {
+            localStorage.setItem('savingsPercentage', JSON.stringify(action.payload));
+            return { ...state, savingsPercentage: action.payload };
+        }
+
+        case 'COMPLETE_ONBOARDING': {
+            localStorage.setItem('onboardingComplete', 'true');
+            return { ...state, onboardingComplete: true };
+        }
+
         default:
             return state;
     }

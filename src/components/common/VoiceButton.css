@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--space-md);
     padding: var(--space-md) 0;
 }
 
@@ -39,7 +39,7 @@
 
 .voice-status {
     text-align: center;
-    min-height: 20px;
+    min-height: 40px;
 }
 
 .voice-listening {
@@ -55,10 +55,46 @@
     animation: pulse 1s infinite;
 }
 
-.voice-hint {
-    font-size: 11px;
+.voice-examples {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.voice-tap-hint {
+    font-size: 12px;
     color: var(--text-muted);
-    letter-spacing: 0.5px;
+}
+
+.voice-example-text {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    min-height: 20px;
+}
+
+.voice-all-examples {
+    width: 100%;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--bg);
+}
+
+.examples-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.example-chip {
+    font-size: 10px;
+    padding: 4px 10px;
+    background: var(--bg);
+    border-radius: var(--radius-xs);
+    color: var(--text-secondary);
+    white-space: nowrap;
 }
 
 .voice-unsupported {

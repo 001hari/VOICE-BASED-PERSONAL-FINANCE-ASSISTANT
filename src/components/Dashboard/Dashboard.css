@@ -4,6 +4,57 @@
     gap: var(--space-md);
 }
 
+/* Income Overview */
+.income-overview {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+.income-overview:hover {
+    border-color: var(--black);
+}
+
+.income-overview .label {
+    color: rgba(255,255,255,0.5);
+}
+
+.income-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+
+.income-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.income-split {
+    display: flex;
+    gap: var(--space-xl);
+}
+
+.split-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.split-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.5);
+}
+
+.split-value {
+    font-size: 16px;
+    font-weight: 700;
+}
+
 /* Stat cards */
 .stat-card {
     display: flex;
@@ -18,12 +69,6 @@
 }
 
 /* Budget section */
-.budget-section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-}
-
 .budget-header {
     display: flex;
     align-items: center;
@@ -32,29 +77,10 @@
     gap: var(--space-sm);
 }
 
-.budget-edit {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-}
-
-.budget-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-}
-
-.budget-amounts {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-sm);
-}
-
 .budget-footer {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
-    color: var(--text-muted);
+    margin-top: 8px;
 }
 
 /* Charts */
@@ -64,7 +90,7 @@
 }
 
 .chart-wrap {
-    max-width: 280px;
+    max-width: 260px;
     margin: 0 auto;
 }
 
@@ -72,7 +98,7 @@
 .top-categories {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: 2px;
     margin-top: var(--space-sm);
 }
 
@@ -101,8 +127,52 @@
     color: var(--text-secondary);
 }
 
-.top-cat-name {
+.top-cat-info {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.top-cat-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Recent Transactions */
+.recent-txns {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: var(--space-sm);
+}
+
+.recent-txn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--bg);
+}
+
+.recent-txn:last-child {
+    border-bottom: none;
+}
+
+.recent-indicator {
+    width: 4px;
+    height: 28px;
+    border-radius: 2px;
+}
+
+.recent-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.recent-cat {
     font-size: 14px;
     font-weight: 500;
 }
